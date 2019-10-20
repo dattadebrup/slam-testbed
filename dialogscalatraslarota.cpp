@@ -5,13 +5,13 @@
 DialogScalaTraslaRota::DialogScalaTraslaRota(QWidget *parent)
     : QDialog(parent)
 {
-  this->parent=(MainWindow *)parent;
+  this->parent = (MainWindow *) parent;
   QDesktopWidget dw;
-  int x=dw.width()*0.8;
-  int y=dw.height()*0.8;
-  QSize newSize( x, y );
+  int x = dw.width() * 0.8;
+  int y = dw.height() * 0.8;
+  QSize newSize(x, y);
   this->resize(newSize);
-  std::cout<< "constructor DialogScalaTraslaRota" <<std::endl;
+  std::cout << "constructor DialogScalaTraslaRota" << std::endl;
   label = new QLabel(tr("Configure Modifications on data sequence:"));
   //lineEdit = new QLineEdit;
   //label->setBuddy(lineEdit);
@@ -32,7 +32,6 @@ DialogScalaTraslaRota::DialogScalaTraslaRota(QWidget *parent)
   scaleZ->setText("0");
   scaleZ->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Preferred);
   scaleZ->setMaximumWidth(100);
-
 
   QGroupBox *traslationGroupBox = new QGroupBox(tr("TRASLATION"));
   QVBoxLayout *traslationVBox = new QVBoxLayout;
@@ -61,8 +60,6 @@ DialogScalaTraslaRota::DialogScalaTraslaRota(QWidget *parent)
   traslationVBox->addWidget(traslaZ);
   traslationVBox->addStretch(1);
   traslationGroupBox->setLayout(traslationVBox);
-
-
 
   labOffset = new QLabel(tr("Time Offset"));
   timeOffset = new QLineEdit;
@@ -121,14 +118,14 @@ DialogScalaTraslaRota::DialogScalaTraslaRota(QWidget *parent)
   gaussianNoiseCheck->setChecked(false);
   cosmicNoiseCheck = new QCheckBox();
   cosmicNoiseCheck->setChecked(false);
-  QGroupBox *frequencyGroupBox=new QGroupBox(tr("Interpolate FREQUENCY "));
+  QGroupBox *frequencyGroupBox = new QGroupBox(tr("Interpolate FREQUENCY "));
   QVBoxLayout *frequencyVBox = new QVBoxLayout;
 
-  freqMaxRadioButton= new QRadioButton(tr("interpolate to Max Frequency"));
+  freqMaxRadioButton = new QRadioButton(tr("interpolate to Max Frequency"));
 
-  freqMinRadioButton= new QRadioButton(tr("interpolate to Min Frequency"));
+  freqMinRadioButton = new QRadioButton(tr("interpolate to Min Frequency"));
 
-  freqCustomizedRadioButton= new QRadioButton(tr("interpolate to Custom Frequency"));
+  freqCustomizedRadioButton = new QRadioButton(tr("interpolate to Custom Frequency"));
   //freqMaxRadioButton->setChecked(true);
   freqCustomizedRadioButton->setChecked(true);
   labFrequency = new QLabel(tr("Custom Frequency "));
@@ -143,20 +140,16 @@ DialogScalaTraslaRota::DialogScalaTraslaRota(QWidget *parent)
   frequencyVBox->addWidget(frequency);
   frequencyGroupBox->setLayout(frequencyVBox);
 
-
-
-
-
   buttonOK = new QPushButton(tr("&OK"));
 
   buttonCancel = new QPushButton(tr("&Cancel"));
-  std::cout<< "constructor dialogScalaTraslaRota after Button Cancel" <<std::endl;
+  std::cout << "constructor dialogScalaTraslaRota after Button Cancel" << std::endl;
 
   connect(buttonOK, SIGNAL(clicked()), this, SLOT(onOK()));
   connect(buttonCancel, SIGNAL(clicked()), this, SLOT(onCancel()));
-  connect(freqCustomizedRadioButton,SIGNAL(clicked()),this,SLOT(onPressCustomizedFrequency()));
-  connect(freqMaxRadioButton,SIGNAL(clicked()),this,SLOT(onPressMaxFrequency()));
-  connect(freqMinRadioButton,SIGNAL(clicked()),this,SLOT(onPressMinFrequency()));
+  connect(freqCustomizedRadioButton, SIGNAL(clicked()), this, SLOT(onPressCustomizedFrequency()));
+  connect(freqMaxRadioButton, SIGNAL(clicked()), this, SLOT(onPressMaxFrequency()));
+  connect(freqMinRadioButton, SIGNAL(clicked()), this, SLOT(onPressMinFrequency()));
 
   //fromStartCheckBox = new QCheckBox(tr("Search from &start"));
   //fromStartCheckBox->setChecked(true);
@@ -188,7 +181,7 @@ DialogScalaTraslaRota::DialogScalaTraslaRota(QWidget *parent)
   //extensionLayout->addWidget(searchSelectionCheckBox);
   //extension->setLayout(extensionLayout);
 
-  std::cout<< "constructor dialogTraslaRota beforeLayout" <<std::endl;
+  std::cout << "constructor dialogTraslaRota beforeLayout" << std::endl;
 
   QHBoxLayout *topLeftLayout = new QHBoxLayout;
   topLeftLayout->addWidget(label);
@@ -244,18 +237,14 @@ DialogScalaTraslaRota::DialogScalaTraslaRota(QWidget *parent)
   leftLayout->addWidget(cosmicNoiseCheck);
   leftLayout->addWidget(cosmicNoiseDeviation);
 
-
-
-
   QHBoxLayout *buttonLayout2 = new QHBoxLayout;
   buttonLayout2->addWidget(buttonOK);
   buttonLayout2->addWidget(buttonCancel);
 
-
   QGridLayout *mainLayout = new QGridLayout;
   mainLayout->setSizeConstraint(QLayout::SetNoConstraint);
   mainLayout->addLayout(leftLayout, 0, 0);
-  mainLayout->addLayout(buttonLayout2, 1,0);
+  mainLayout->addLayout(buttonLayout2, 1, 0);
   //mainLayout->addWidget(buttonBox, 0, 1);
   //mainLayout->addWidget(extension, 1, 0, 1, 2);
   mainLayout->setRowStretch(2, 1);
@@ -264,12 +253,12 @@ DialogScalaTraslaRota::DialogScalaTraslaRota(QWidget *parent)
 
   setWindowTitle(tr("sequence manager"));
   //extension->hide();
-  std::cout<< "end constructor scalatraslaRota" <<std::endl;
+
 }
 
 void DialogScalaTraslaRota::onOK()
 {
-  std::cout<< "onOK" <<std::endl;
+  std::cout << "onOK" << std::endl;
   double tx = traslaX->text().toDouble();
   double ty = traslaY->text().toDouble();
   double tz = traslaZ->text().toDouble();
@@ -284,105 +273,110 @@ void DialogScalaTraslaRota::onOK()
   double cNoise = cosmicNoiseDeviation->text().toDouble();
   double tOffset = timeOffset->text().toDouble();
   int fType;//frequencyType
-  if (freqMaxRadioButton->isChecked()){
-    fType=0;
-  }else {
-    if (freqMinRadioButton->isChecked()){
-      fType=1;
-    }else if (freqCustomizedRadioButton->isChecked()){
-      fType=2;
+  if (freqMaxRadioButton->isChecked())
+  {
+    fType = 0;
+  } else
+  {
+    if (freqMinRadioButton->isChecked())
+    {
+      fType = 1;
+    } else if (freqCustomizedRadioButton->isChecked())
+    {
+      fType = 2;
     }
   }
 
-  if (gaussianNoiseCheck->isChecked()){
-    gNoise=1;
-  } else gNoise=0;
-  if (cosmicNoiseCheck->isChecked()){
-    cNoise=1;
-  } else cNoise=0;
+  if (gaussianNoiseCheck->isChecked())
+  {
+    gNoise = 1;
+  } else gNoise = 0;
+  if (cosmicNoiseCheck->isChecked())
+  {
+    cNoise = 1;
+  } else cNoise = 0;
   double freq = frequency->text().toDouble();
-  std::cout<< "onOK" <<std::endl;
-  ((MainWindow*)(parent))->performModifySequence(sx,sy,sz,tx,ty,tz,rx,ry,rz,gNoise,cNoise,tOffset,fType,freq, gNoise_value);
-  std::cout<< "onOK:gNoise="<<gNoise<<std::endl;
-  //dialogModel = new DataDialogScalaTraslaRota(sx,sy,sz,tx,ty,tz,rx,ry,rz,gNoise,cNoise);
-  dialogModel->updateData( sx,sy,sz,tx,ty,tz,rx,ry,rz,gNoise,cNoise,tOffset,fType,freq);
-  std::cout<< "onOK:dialogModel->getGaussianNoiseDeviation()="<<dialogModel->getGaussianNoiseDeviation()<<std::endl;
-  //((MainWindow*)(parent))->setTrasla(x,y,z);
+  std::cout << "onOK" << std::endl;
+  ((MainWindow *) (parent))
+      ->performModifySequence(sx, sy, sz, tx, ty, tz, rx, ry, rz, gNoise, cNoise, tOffset, fType, freq, gNoise_value);
+  std::cout << "onOK:gNoise=" << gNoise << std::endl;
 
-  //((MainWindow*)(parent))->setTrasla(traslaX->text().toDouble(),traslaY->text().toDouble(),traslaZ->text().toDouble());
-  //((Winslam*)(((MainWindow*)(parent))->myWinSlam))->setTrasla(traslaX,traslaY,traslaZ);
-  std::cout<< "FIN onOK" <<std::endl;
+  dialogModel->updateData(sx, sy, sz, tx, ty, tz, rx, ry, rz, gNoise, cNoise, tOffset, fType, freq);
+  std::cout << "onOK:dialogModel->getGaussianNoiseDeviation()=" << dialogModel->getGaussianNoiseDeviation()
+            << std::endl;
+
+  std::cout << "FIN onOK" << std::endl;
   this->close();
 }
 
-void DialogScalaTraslaRota::setDataDialog(DataDialogScalaTraslaRota* aModel){
+void DialogScalaTraslaRota::setDataDialog(DataDialogScalaTraslaRota *aModel)
+{
   dialogModel = aModel;
   double value = 0.0;
-  traslaX->setText( QString::number(dialogModel->getTraslaX(), 'f', 6));
-  traslaY->setText( QString::number(dialogModel->getTraslaY(), 'f', 6));
-  traslaZ->setText( QString::number(dialogModel->getTraslaZ(), 'f', 6));
-  scaleX->setText( QString::number(dialogModel->getScaleX(), 'f', 6));
-  scaleY->setText( QString::number(dialogModel->getScaleX(), 'f', 6));//setText( QString::number(dialogModel->getScaleY(), 'f', 6));
-  scaleZ->setText( QString::number(dialogModel->getScaleX(), 'f', 6));//setText( QString::number(dialogModel->getScaleZ(), 'f', 6));
-  rotaX->setText( QString::number(dialogModel->getRotaX(), 'f', 6));
-  rotaY->setText( QString::number(dialogModel->getRotaY(), 'f', 6));
-  rotaZ->setText( QString::number(dialogModel->getRotaZ(), 'f', 6));
-  timeOffset->setText( QString::number(dialogModel->getTimeOffset(), 'f', 6));
-  gaussianNoiseDeviation->setText( QString::number(dialogModel->getGaussianNoiseDeviation(), 'f', 6));
-  cosmicNoiseDeviation->setText( QString::number(dialogModel->getCosmicNoiseDeviation(), 'f', 6));
+  traslaX->setText(QString::number(dialogModel->getTraslaX(), 'f', 6));
+  traslaY->setText(QString::number(dialogModel->getTraslaY(), 'f', 6));
+  traslaZ->setText(QString::number(dialogModel->getTraslaZ(), 'f', 6));
+  scaleX->setText(QString::number(dialogModel->getScaleX(), 'f', 6));
+  scaleY->setText(QString::number(dialogModel->getScaleX(),
+                                  'f',
+                                  6));//setText( QString::number(dialogModel->getScaleY(), 'f', 6));
+  scaleZ->setText(QString::number(dialogModel->getScaleX(),
+                                  'f',
+                                  6));//setText( QString::number(dialogModel->getScaleZ(), 'f', 6));
+  rotaX->setText(QString::number(dialogModel->getRotaX(), 'f', 6));
+  rotaY->setText(QString::number(dialogModel->getRotaY(), 'f', 6));
+  rotaZ->setText(QString::number(dialogModel->getRotaZ(), 'f', 6));
+  timeOffset->setText(QString::number(dialogModel->getTimeOffset(), 'f', 6));
+  gaussianNoiseDeviation->setText(QString::number(dialogModel->getGaussianNoiseDeviation(), 'f', 6));
+  cosmicNoiseDeviation->setText(QString::number(dialogModel->getCosmicNoiseDeviation(), 'f', 6));
 
-  if (dialogModel->getGaussianNoiseDeviation() == 1){
+  if (dialogModel->getGaussianNoiseDeviation() == 1)
+  {
     gaussianNoiseCheck->setChecked(true);
   }
 
-  if (dialogModel->getCosmicNoiseDeviation() == 1){
+  if (dialogModel->getCosmicNoiseDeviation() == 1)
+  {
     cosmicNoiseCheck->setChecked(true);
 
   }
-  int frequencyType=dialogModel->getFrequencyType();
-  if (frequencyType==0){
-    std::cout<< "DialogScalaTraslaRota::setDataDialog frequencyType="<< frequencyType <<std::endl;
+  int frequencyType = dialogModel->getFrequencyType();
+  if (frequencyType == 0)
+  {
+
     freqMaxRadioButton->setEnabled(true);
     onPressMaxFrequency();
-  } else if (frequencyType==1){
-    std::cout<< "DialogScalaTraslaRota::setDataDialog frequencyType="<< frequencyType <<std::endl;
+  } else if (frequencyType == 1)
+  {
+
     freqMinRadioButton->setEnabled(true);
     onPressMinFrequency();
 
-  }else if (frequencyType==2){
-    std::cout<< "DialogScalaTraslaRota::setDataDialog frequencyType="<< frequencyType <<std::endl;
+  } else if (frequencyType == 2)
+  {
+
     freqCustomizedRadioButton->setEnabled(true);
     onPressCustomizedFrequency();
   }
-  frequency->setText(QString::number(dialogModel->getFrequency(),'f',6));
-  //traslaX=new QString*((dialogModel->getTraslaX()));
-/*
-       double ty = traslaY->text().toDouble();
-       double tz = traslaZ->text().toDouble();
-       double sx = scaleX->text().toDouble();
-       double sy = scaleY->text().toDouble();
-       double sz = scaleZ->text().toDouble();
-       double rx = rotaX->text().toDouble();
-       double ry = rotaY->text().toDouble();
-       double rz = rotaZ->text().toDouble();
-  */
+  frequency->setText(QString::number(dialogModel->getFrequency(), 'f', 6));
+
 }
 
-
-DataDialogScalaTraslaRota* DialogScalaTraslaRota::getDataDialog(){
+DataDialogScalaTraslaRota *DialogScalaTraslaRota::getDataDialog()
+{
   return dialogModel;
 }
 
 void DialogScalaTraslaRota::onCancel()
 {
-  std::cout<< "onCancel" <<std::endl;
+  std::cout << "onCancel" << std::endl;
   buttonCancel->hide();
   this->close();
 }
 
 void DialogScalaTraslaRota::onPressCustomizedFrequency()
 {
-  std::cout<<"onPressCustomizedFrequency"<<std::endl;
+  std::cout << "onPressCustomizedFrequency" << std::endl;
   frequency->setEnabled(true);
   frequency->setReadOnly(false);
   freqCustomizedRadioButton->setChecked(true);
@@ -394,10 +388,10 @@ void DialogScalaTraslaRota::onPressCustomizedFrequency()
 }
 void DialogScalaTraslaRota::onPressMaxFrequency()
 {
-  std::cout<<"onPressMaxFrequency"<<std::endl;
+  std::cout << "onPressMaxFrequency" << std::endl;
   frequency->setEnabled(false);
   frequency->setDisabled(true);
-  freqMaxRadioButton ->setChecked(true);
+  freqMaxRadioButton->setChecked(true);
   //frequency->setReadOnly(true);
   //frequency->setVisible(false);
   //labFrequency->setVisible(false);
@@ -408,7 +402,7 @@ void DialogScalaTraslaRota::onPressMaxFrequency()
 
 void DialogScalaTraslaRota::onPressMinFrequency()
 {
-  std::cout<<"onPressMinFrequency"<<std::endl;
+  std::cout << "onPressMinFrequency" << std::endl;
   frequency->setDisabled(true);
   frequency->setEnabled(false);
   freqMinRadioButton->setChecked(true);

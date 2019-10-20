@@ -498,7 +498,7 @@ void MainWindow::onEstimateSequence(int way,
 
   }
 
-  myInterpolator.performInterpolation(ftype, frequency, dataA, dataB);
+  //myInterpolator.performInterpolation(ftype, frequency, dataA, dataB);
 
 
   //Check if the time is aligned for A and B

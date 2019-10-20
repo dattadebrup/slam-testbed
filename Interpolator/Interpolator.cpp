@@ -893,7 +893,16 @@ void Interpolator::reduceSequence(int maxLine, MatrixXd &aMatrix, int numberToDe
 double Interpolator::findFrequency(MatrixXd dataSet)
 {
   int rows = dataSet.rows();
-  double frequency = 0.0;
+  double frequency;
+
+  double first_timestamp = dataSet(0,0);
+  double last_timestamp = dataSet(rows-1, 0);
+
+  double time_period = (last_timestamp - first_timestamp) / (rows -1) ;
+
+  frequency = 1.0000000 / time_period ;
+
+  /*
   if (rows > 100)
   {
     double ini = dataSet.row(0)(0);
@@ -908,6 +917,7 @@ double Interpolator::findFrequency(MatrixXd dataSet)
     frequency = double(end - ini) / midPoint;
 
   }
+   */
   return frequency;
 }
 void Interpolator::performInterpolation(int freqType, double freq, MatrixXd &dataA, MatrixXd &dataB)
@@ -919,10 +929,7 @@ void Interpolator::performInterpolation(int freqType, double freq, MatrixXd &dat
 
   } else if (freqType == 1)
   {//interpolate to Fmin
-    std::cout << "dataA=" << dataA << std::endl;
     this->reduceSequence(2, dataA);
-    std::cout << "dataA=" << dataA << std::endl;
-    std::cout << "dataB=" << dataB << std::endl;
     this->interpolate2SeriesFMin(dataA.rows(), dataA, dataB);
 
   } else if (freqType == 0)  //interpolate to Fmax
@@ -934,13 +941,9 @@ void Interpolator::performInterpolation(int freqType, double freq, MatrixXd &dat
 //---------------------------------------------------------------------------------
 int Interpolator::timeLessThan(double timeA, double timeB)
 {
-  //return (long(time1*100) < long(time2*100));
-  //long time1 = timeA*100.0;
-  //long time2 = timeB*100.0;
-  //return (fabs(timeA - timeB) > 0.0001);
+
   return (timeB - timeA) > 0.0000001; //if timeB is greater than timeA then de difference must be greater than epsilon
-  //return (time1 < time2);
-  //return (fabs(timeB - timeA) > std::numeric_limits<double>::epsilon());
+
 }
 
 int Interpolator::timeGreaterThan(double timeA, double timeB)
