@@ -1,10 +1,13 @@
 ## Installation Instructions:-
 ### Prerequisites:-
-#### 1. Follow [Qt5 installation](https://wiki.qt.io/Install_Qt_5_on_Ubuntu).
-
-#### 2. Install OpenGL
+#### 1. Follow [Qt5 installation](https://wiki.qt.io/Install_Qt_5_on_Ubuntu) Or
 ```
 sudo apt-get update
+sudo apt-get install qt5-default
+```
+#### 2. Install OpenGL
+```
+sudo apt-get install libxmu-dev libxi-dev
 sudo apt-get install libglu1-mesa-dev freeglut3-dev mesa-common-dev
 ```
 
